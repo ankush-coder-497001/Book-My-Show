@@ -1,0 +1,7 @@
+POST  http://localhost:5000/admin/signup
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "securepassword123"
+}
