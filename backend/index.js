@@ -20,7 +20,7 @@ app.use('/admin',adminRouter);
 app.use('/movie',movieRouter);
 app.use('/booking',bookingsRouter)
 
-mongoose.connect('mongodb://127.0.0.1:27017/BookMyShow')
+mongoose.connect('mongodb+srv://ankushcoder497001:zP9LhWtgecgpHSsq@cluster0.ck37i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 .then(()=>{
   app.listen(5000,()=>{
     console.log('Server is running on port 5000 and Db is also connected');
