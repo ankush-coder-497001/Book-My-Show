@@ -1,6 +1,6 @@
 import axios from "axios";
 export const getAllMovies = async () => {
-  const res = await axios.get("http://localhost:5000/movie/").catch((err) => console.log(err));
+  const res = await axios.get("https://book-my-show-2-wbep.onrender.com/movie/").catch((err) => console.log(err));
 
   if (res?.status !== 200) {
     return console.log("No Data");
@@ -12,7 +12,7 @@ export const getAllMovies = async () => {
 
 export const sendUserAuthRequest = async (data, signup) => {
   const res = await axios
-    .post(`http://localhost:5000/user/${signup ? "signup" : "login"}`, {
+    .post(`https://book-my-show-2-wbep.onrender.com/user/${signup ? "signup" : "login"}`, {
       name: signup ? data.name : "",
       email: data.email,
       password: data.password,
@@ -29,7 +29,7 @@ export const sendUserAuthRequest = async (data, signup) => {
 
 export const sendAdminAuthRequest = async (data) => {
   const res = await axios
-    .post("http://localhost:5000/admin/login", {
+    .post("https://book-my-show-2-wbep.onrender.com/admin/login", {
       email: data.email,
       password: data.password,
     })
@@ -44,7 +44,7 @@ export const sendAdminAuthRequest = async (data) => {
 };
 
 export const getMovieDetails = async (id) => {
-  const res = await axios.get(`http://localhost:5000/movie/${id}`).catch((err) => console.log(err));
+  const res = await axios.get(`https://book-my-show-2-wbep.onrender.com/movie/${id}`).catch((err) => console.log(err));
   if (res.status !== 200) {
     return console.log("Unexpected Error");
   }
@@ -54,7 +54,7 @@ export const getMovieDetails = async (id) => {
 
 export const newBooking = async (data) => {
   const res = await axios
-    .post("http://localhost:5000/booking", {
+    .post("https://book-my-show-2-wbep.onrender.com/booking", {
       movie: data.movie,
       seatNumber: data.seatNumber,
       date: data.date,
@@ -72,7 +72,7 @@ export const newBooking = async (data) => {
 export const getUserBooking = async () => {
   const id = localStorage.getItem("userId");
   const res = await axios
-    .get(`http://localhost:5000/user/bookings/${id}`)
+    .get(`https://book-my-show-2-wbep.onrender.com/user/bookings/${id}`)
     .catch((err) => console.log(err));
 
   if (res?.status !== 200) {
@@ -84,7 +84,7 @@ export const getUserBooking = async () => {
 
 export const deleteBooking = async (id) => {
   const res = await axios
-    .delete(`http://localhost:5000/booking/${id}`)
+    .delete(`https://book-my-show-2-wbep.onrender.com/booking/${id}`)
     .catch((err) => console.log(err));
 
   if (res?.status !== 200) {
@@ -97,7 +97,7 @@ export const deleteBooking = async (id) => {
 
 export const getUserDetails = async () => {
   const id = localStorage.getItem("userId");
-  const res = await axios.get(`http://localhost:5000/user/${id}`).catch((err) => console.log(err));
+  const res = await axios.get(`https://book-my-show-2-wbep.onrender.com/user/${id}`).catch((err) => console.log(err));
   if (res?.status !== 200) {
     return console.log("Unexpected Error");
   }
@@ -108,7 +108,7 @@ export const getUserDetails = async () => {
 export const addMovie = async (data) => {
   const res = await axios
     .post(
-      "http://localhost:5000/movie",
+      "https://book-my-show-2-wbep.onrender.com/movie",
       {
         title: data.title,
         description: data.description,
@@ -137,7 +137,7 @@ export const addMovie = async (data) => {
 export const getAdminById = async () => {
   const adminId = localStorage.getItem("adminId");
   const res = await axios
-    .get(`http://localhost:5000/admin/${adminId}`)
+    .get(`https://book-my-show-2-wbep.onrender.com/admin/${adminId}`)
     .catch((err) => console.log(err));
 
   if (res?.status !== 200) {
