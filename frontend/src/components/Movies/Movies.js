@@ -2,15 +2,24 @@ import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getAllMovies } from "../../api-helpers/api-helpers";
 import MovieItem from "./MovieItem";
+import Loader from "../Loader";
 
 const Movies = () => {
   const [movies, setMovies] = useState();
+  const[loader , setloader] = useState(false);
+
   useEffect(() => {
+    setloader(true);
     getAllMovies()
-      .then((data) => setMovies(data.movies))
+      .then((data) =>{ 
+        setMovies(data.movies)
+        setloader(false);
+
+      })
       .catch((err) => console.log(err));
   }, []);
   return (
+      <>
     <Box margin={"auto"} marginTop={4}>
       <Typography
         margin={"auto"}
@@ -43,6 +52,10 @@ const Movies = () => {
           ))}
       </Box>
     </Box>
+      {loader && 
+        <Loader/>
+        }
+        </>
   );
 };
 

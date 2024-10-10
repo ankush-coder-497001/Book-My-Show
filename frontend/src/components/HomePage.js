@@ -3,15 +3,23 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllMovies } from "../api-helpers/api-helpers";
 import MovieItem from "./Movies/MovieItem";
+import Loader from "./Loader";
+import toast from "react-hot-toast";
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
+  const[loader , setloader] = useState(false);
   useEffect(() => {
+    setloader(true);
     getAllMovies()
-      .then((data) => setMovies(data.movies))
-      .catch((err) => console.log(err));
+      .then((data) => {
+        setMovies(data.movies)
+        setloader(false);
+      })
+      .catch((err) => toast.error(err));
   }, []);
   return (
+    <>
     <Box width={"100%"} height="100%" margin="auto" marginTop={2}>
       <Box margin={"auto"} width="80%" height={"40vh"} padding={2}>
         <img
@@ -19,7 +27,7 @@ const HomePage = () => {
           alt="Brahmastra"
           width={"100%"}
           height={"100%"}
-        />
+          />
       </Box>
       <Box padding={5} margin="auto">
         <Typography variant="h4" textAlign={"center"}>
@@ -33,19 +41,19 @@ const HomePage = () => {
         justifyContent={"center"}
         alignItems="center"
         flexWrap="wrap"
-      >
+        >
         {movies &&
           movies
-            .slice(0, 4)
+          .slice(0, 4)
             .map((movie, index) => (
               <MovieItem
-                id={movie.id}
+              id={movie.id}
                 title={movie.title}
                 posterUrl={movie.posterUrl}
                 releaseDate={movie.releaseDate}
                 key={index}
-              />
-            ))}
+                />
+              ))}
       </Box>
       <Box display="flex" padding={5} margin="auto">
         <Button
@@ -53,11 +61,15 @@ const HomePage = () => {
           to="/movies"
           variant="outlined"
           sx={{ margin: "auto", color: "#2b2d42" }}
-        >
+          >
           View All Movies
         </Button>
       </Box>
     </Box>
+    {loader && 
+    <Loader/>
+    }
+    </>
   );
 };
 

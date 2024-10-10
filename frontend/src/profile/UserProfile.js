@@ -16,17 +16,24 @@ import {
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
 const UserProfile = () => {
   const [bookings, setBookings] = useState();
   const [user, setUser] = useState();
+  const[loader , setloader] = useState(false);
+
   const navigate = useNavigate()
   useEffect(() => {
+    setloader(true);
     getUserBooking()
       .then((res) => setBookings(res.bookings))
       .catch((err) => console.log(err));
 
     getUserDetails()
-      .then((res) => setUser(res.user))
+      .then((res) => {
+        setUser(res.user)
+        setloader(false);
+      })
       .catch((err) => console.log(err));
   }, []);
   const handleDelete = (id) => {
@@ -37,17 +44,18 @@ const UserProfile = () => {
       navigate('/');
   };
   return (
+    <>
     <Box width={"100%"} display="flex">
       <Fragment>
         {" "}
         {user && (
           <Box
-            flexDirection={"column"}
+          flexDirection={"column"}
             justifyContent="center"
             alignItems={"center"}
             width={"30%"}
             padding={3}
-          >
+            >
             <AccountCircleIcon
               sx={{ fontSize: "10rem", textAlign: "center", ml: 3 }}
             />
@@ -57,7 +65,7 @@ const UserProfile = () => {
               textAlign={"center"}
               border={"1px solid #ccc"}
               borderRadius={6}
-            >
+              >
               Name: {user.name}
             </Typography>
             <Typography
@@ -79,7 +87,7 @@ const UserProfile = () => {
               fontFamily={"verdana"}
               textAlign="center"
               padding={2}
-            >
+              >
               Bookings
             </Typography>
             <Box
@@ -87,20 +95,20 @@ const UserProfile = () => {
               display="flex"
               flexDirection={"column"}
               width="80%"
-            >
+              >
               <List>
                 {bookings.map((booking, index) => (
                   <ListItem
-                    sx={{
-                      bgcolor: "#00d386",
-                      color: "white",
-                      textAlign: "center",
-                      margin: 1,
-                    }}
+                  sx={{
+                    bgcolor: "#00d386",
+                    color: "white",
+                    textAlign: "center",
+                    margin: 1,
+                  }}
                   >
                     <ListItemText
                       sx={{ margin: 1, width: "auto", textAlign: "left" }}
-                    >
+                      >
                       Movie: {booking.movie.title}
                     </ListItemText>
                     <ListItemText
@@ -110,7 +118,7 @@ const UserProfile = () => {
                     </ListItemText>
                     <ListItemText
                       sx={{ margin: 1, width: "auto", textAlign: "left" }}
-                    >
+                      >
                       Date: {new Date(booking.date).toDateString()}
                     </ListItemText>
                     <IconButton
@@ -127,6 +135,10 @@ const UserProfile = () => {
         )}
       </Fragment>
     </Box>
+    {loader && 
+    <Loader/>
+    }
+                </>
   );
 };
 

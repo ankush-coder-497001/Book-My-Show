@@ -4,17 +4,24 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMovieDetails, newBooking } from "../../api-helpers/api-helpers";
 import toast from "react-hot-toast";
+import Loader from "../Loader";
 
 const Booking = () => {
   const [movie, setMovie] = useState();
   const [inputs, setInputs] = useState({ seatNumber: "", date: "" });
   const navigate = useNavigate()
+  const[loader , setloader] = useState(false);
+
   const id = useParams().id;
   console.log(id);
 
   useEffect(() => {
+    setloader(true)
     getMovieDetails(id)
-      .then((res) => setMovie(res.movie))
+      .then((res) => {
+        setMovie(res.movie)
+    setloader(false)
+      })
       .catch((err) => console.log(err));
   }, [id]);
   const handleChange = (e) => {
@@ -24,12 +31,14 @@ const Booking = () => {
     }));
   };
   const handleSubmit = (e) => {
+    setloader(true);
     e.preventDefault();
     console.log(inputs);
     newBooking({ ...inputs, movie: movie._id })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
       toast.success('Movie Booked');
+      setloader(false);
       navigate('/');
   };
   return (
@@ -105,6 +114,10 @@ const Booking = () => {
           </Box>
         </Fragment>
       )}
+
+{loader && 
+    <Loader/>
+    }
     </div>
   );
 };

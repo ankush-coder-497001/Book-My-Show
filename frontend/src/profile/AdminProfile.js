@@ -3,14 +3,22 @@ import React, { Fragment, useEffect, useState } from "react";
 import { getAdminById } from "../api-helpers/api-helpers";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { List, ListItem, ListItemText, Typography } from "@mui/material";
+import Loader from "../components/Loader";
 const AdminProfile = () => {
   const [admin, setAdmin] = useState();
+  const[loader , setloader] = useState(false);
+
   useEffect(() => {
+    setloader(true)
     getAdminById()
-      .then((res) => setAdmin(res))
+      .then((res) => {
+        setAdmin(res)
+       setloader(false)
+      })
       .catch((err) => console.log(err));
   }, []);
   return (  
+    <>
     <Box width={"100%"} display="flex">
       <Fragment>
         {" "}
@@ -77,6 +85,10 @@ const AdminProfile = () => {
         )}
       </Fragment>
     </Box>
+    {loader && 
+      <Loader/>
+      }
+      </>
   );
 };
 

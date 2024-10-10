@@ -10,12 +10,14 @@ import React, { useState } from "react";
 import { addMovie } from "../../api-helpers/api-helpers";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Loader";
 const labelProps = {
   mt: 1,
   mb: 1,
 };
 const AddMovie = () => {
   const navigate = useNavigate();
+  const[loader , setloader] = useState(false);
   const [inputs, setInputs] = useState({
     title: "",
     description: "",
@@ -33,9 +35,14 @@ const AddMovie = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    setloader(true);
     console.log(inputs, actors);
     addMovie({ ...inputs, actors })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res)
+        setloader(false);
+
+      })
       .catch((err) => console.log(err));
       toast.success('movie added')
       navigate('/')
@@ -133,6 +140,10 @@ const AddMovie = () => {
           </Button>
         </Box>
       </form>
+
+      {loader && 
+    <Loader/>
+    }
     </div>
   );
 };
